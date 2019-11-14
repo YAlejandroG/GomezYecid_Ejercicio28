@@ -23,4 +23,4 @@ plt.xlabel('X(m)')
 plt.ylabel('Y(m)')
 plt.title("PROJECTILE MOTION")
 
-plt.savefig("proyectil.png")
+plt.savefig("friccion.png")
