@@ -5,12 +5,11 @@ using namespace std;
 
 //Algunas partes tomadas y modificadas de un ejercicio del LABORATORIO
 
-double v0 = 22.0;
-double teta = 34.0;
 double g = 9.8;
-double Kf = 0.9;
+double Kf = 0.7;
 double dt = 0.01;
 
+int sinFriccion(double t, double vx, double vy);
 double fx(double t, double x, double vx); 
 double fy(double t, double y, double vy); 
 double fdx(double t, double x, double vx, double v, double n); 
@@ -23,12 +22,14 @@ int main(void)
   n = 1.0;
   x = 0.0;
   y = 0.0;
-  vx = v0*cos(teta*M_PI/180.0);
-  vy = v0*sin(teta*M_PI/180.0);
+  vx = 10.0;
+  vy = 10.0;
   t = 2.0*vy/g;
     
   ofstream outfile;
   outfile.open("proyectil.dat");
+
+  sinFriccion(t,vx,vy);
     
   for(time = 0; time <= t; time += dt) {
     outfile << x << "\t" << y << endl;
@@ -36,6 +37,23 @@ int main(void)
   }
   outfile.close();
     
+  return 0;
+}
+
+int sinFriccion(double t, double vx, double vy)
+{
+  double xp, yp, time;
+    
+  ofstream outfile;
+  outfile.open("proyectilSF.dat");
+    
+  for(time = 0; time <= t; time += dt) {
+    xp = vx*time;
+    yp = vy*time - g*pow(time,2)/2;
+    outfile << xp << "\t" << yp << endl;
+  }
+  outfile.close();
+  
   return 0;
 }
 
