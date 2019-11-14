@@ -3,6 +3,8 @@
 #include <cmath>
 using namespace std;
 
+//Algunas partes tomadas y modificadas de un ejercicio del LABORATORIO
+
 double v0 = 22.0;
 double teta = 34.0;
 double g = 9.8;
