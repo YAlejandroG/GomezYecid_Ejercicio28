@@ -2,53 +2,84 @@
 #include <cmath>
 using namespace std;
 
-// variable constantes globales
-const double K = 100;
-const double M = 2;
-const double LAMBDA = 1;
-const double DeltaT = 0.01;
+double v0 = 22.0;
+double teta = 34.0;
+double t = 2.0*v0y/g;
+double g = 9.8;
+double Kf = 0.9;
+double dt = 0.01;
 
-// declaracion de funciones
-double f0(double t, double y0, double y1); // derivada de y0
-double f1(double t, double y0, double y1); // derivada de y1
-void rk4(double t, double h, double & y0, double & y1); // metodo de runge kutta 4 orden
+double fx(double t, double x, double vx); 
+double fy(double t, double y, double vy); 
+double fdx(double t, double x, double vx, double n); 
+double fdy(double t, double y, double vy, double n); 
+int rk4(double t, double dt, double n, double & x, double & vx, double & y, double & vy); 
 
 int main(void)
 {
-  double x, v, time;
-  x = 1;
-  v = 0;
-  for(time = 0; time <= 10; time += DeltaT) {
-    cout << time << "\t" << x << "\t" << v << endl;
-    rk4(time, DeltaT, x, v);
+  double x, y, vx, vy, time, n;
+  n = 1.0;
+  x = 0.0;
+  y = 0.0;
+  vx = v0*cos(teta*M_PI/180.0);
+  vy = v0*sin(teta*M_PI/180.0);
+  for(time = 0; time <= t; time += dt) {
+    cout << x << "\t" << y << endl;
+    rk4(time, dt, n, x, vx, y, vy);
   }
-
 
   return 0;
 }
 
-double f0(double t, double y0, double y1)
+double fx(double t, double x, double vx)
 {
-  return y1;
+  return vx;
 }
 
-double f1(double t, double y0, double y1)
+double fy(double t, double y, double vy)
+{
+  return vy;
+}
+
+double fdx(double t, double x, double vx, double v; double n)
+{
+  return -Kf*pow(vx, n)*vx/v;
+}
+
+double fdy(double t, double y, double vy, double v; double n)
 {
   return (-K/M)*pow(y0, LAMBDA);
 }
 
-void rk4(double t, double h, double & y0, double & y1) // metodo de runge kutta 4 orden
+int rk4(double t, double dt, double n, double & x, double & vx, double & y, double & vy) 
 {
-  double k10, k11, k20, k21, k30, k31, k40, k41;
-  k10 = h*f0(t, y0, y1);
-  k11 = h*f1(t, y0, y1);
-  k20 = h*f0(t+h/2, y0 + k10/2, y1 + k11/2);
-  k21 = h*f1(t+h/2, y0 + k10/2, y1 + k11/2);
-  k30 = h*f0(t+h/2, y0 + k20/2, y1 + k21/2);
-  k31 = h*f1(t+h/2, y0 + k20/2, y1 + k21/2);
-  k40 = h*f0(t + h, y0 + k30, y1 + k31);
-  k41 = h*f1(t + h, y0 + k30, y1 + k31);
+  double v = sqrt(pow(vx,2)+pow(vy,2));
 
-  y0 = y0 + (1.0/6.0)*(k10 + 2*k20 + 2*k30 + k40);
-  y1 = y1 + (1.0/6.0)*(k11 + 2*k21 + 2*k31 + k41);
+  double k10x, k11x, k20x, k21x, k30x, k31x, k40x, k41x;
+  k10x = dt*fx(t, x, vx);
+  k11x = dt*fdx(t, x, vx, n);
+  k20x = dt*fx(t+dt/2, x + k10x/2, vx + k11x/2);
+  k21x = dt*fdx(t+dt/2, x + k10x/2, vx + k11x/2, n);
+  k30x = dt*fx(t+dt/2, x + k20x/2, vx + k21x/2);
+  k31x = dt*fdx(t+dt/2, x + k20x/2, vx + k21x/2, n);
+  k40x = dt*fx(t+dt, x + k30x, vx + k31x);
+  k41x = dt*fdx(t+dt, x + k30x, vx + k31x, n);
+
+  x = x + (1.0/6.0)*(k10x + 2*k20x + 2*k30x + k40x);
+  vx = vx + (1.0/6.0)*(k11x + 2*k21x + 2*k31x + k41x);
+    
+  double k10y, k11y, k20y, k21y, k30y, k31y, k40y, k41y;
+  k10y = dt*fy(t, y, vy);
+  k11y = dt*fdy(t, y, vy, n);
+  k20y = dt*fy(t+dt/2, y + k10y/2, vy + k11y/2);
+  k21y = dt*fdy(t+dt/2, y + k10y/2, vy + k11y/2, n);
+  k30y = dt*fy(t+dt/2, y + k20y/2, vy + k21y/2);
+  k31y = dt*fdy(t+dt/2, y + k20y/2, vy + k21y/2, n);
+  k40y = dt*fy(t+dt, y + k30y, vy + k31y);
+  k41y = dt*fdy(t+dt, y + k30y, vy + k31y, n);
+
+  y = y + (1.0/6.0)*(k10y + 2*k20y + 2*k30y + k40y);
+  vy = vy + (1.0/6.0)*(k11y + 2*k21y + 2*k31y + k41y);
+    
+  return 0;
 }
