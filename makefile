@@ -1,11 +1,11 @@
-primergrado.png : Ejercicio27.py implicit1.dat implicit0.1.dat implicit0.01.dat explicit1.dat explicit0.1.dat explicit0.01.dat
-	python Ejercicio27.py
+proyectil.png : Ejercicio28.py proyectil.dat 
+	python Ejercicio28.py
 
-implicit1.dat implicit0.1.dat implicit0.01.dat explicit1.dat explicit0.1.dat explicit0.01.dat : Ejercicio27.x
-	./Ejercicio27.x 
+proyectil.dat : Ejercicio28.x
+	./Ejercicio28.x 
 
-Ejercicio27.x : Ejercicio27.cpp
-	c++ Ejercicio27.cpp -o Ejercicio27.x
+Ejercicio28.x : Ejercicio28.cpp
+	c++ Ejercicio28.cpp -o Ejercicio28.x
 	
 clean : 
-	rm Ejercicio27.x implicit1.dat implicit0.1.dat implicit0.01.dat explicit1.dat explicit0.1.dat explicit0.01.dat primergrado.png
+	rm Ejercicio28.x proyectil.dat proyectil.png
