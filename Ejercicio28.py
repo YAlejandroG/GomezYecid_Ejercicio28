@@ -13,7 +13,7 @@ y = proyectil[:,1]
 xp = proyectilSF[:,0]
 yp = proyectilSF[:,1]
 
-plt.plot(x,y,c='b',label='With DRAG')
+plt.plot(x,y,c='orange',label='With DRAG')
 plt.plot(xp,yp,c='g',label='Without DRAG')
 
 plt.grid()
