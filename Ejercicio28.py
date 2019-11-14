@@ -19,4 +19,8 @@ plt.plot(xp,yp,c='g',label='Without DRAG')
 plt.grid()
 plt.legend()
 
+plt.xlabel('X(m)')
+plt.ylabel('Y(m)')
+plt.title("PROJECTILE MOTION")
+
 plt.savefig("proyectil.png")
